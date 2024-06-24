@@ -1259,6 +1259,11 @@ void Observer_scan_result_cback( wiced_bt_ble_scan_results_t *p_scan_result, uin
 			   						wiced_hal_gpio_set_pin_output( LED_GPIO_04, GPIO_PIN_OUTPUT_HIGH);
 			   					}
 			   					WICED_BT_TRACE("greeen2222\n");
+			   					if(status_driver == 1)
+			   					{
+			   						//WICED_BT_TRACE("Paro timer de conductor\n");
+			   						stop_DropDriver();    /* Paro el timer de soltado de lampara */
+			   					}
 			   				  //gap_transfer();
 			   					   start_Treturn();
 			   	       		}

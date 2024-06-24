@@ -18,11 +18,11 @@ extern	uint8_t dlb;
 extern	uint8_t dtv;
 
 	/* Valor optimo en tag vehicuo */
-	  //uint8_t RSSI_CLOSER = 40;
-	  //uint8_t RSSI_DRIVER = 67;
+	  uint8_t RSSI_CLOSER = 40;
+	  uint8_t RSSI_DRIVER = 68;
 	  /* Bajos decibeles */
-	  uint8_t RSSI_CLOSER = 77;
-	  uint8_t RSSI_DRIVER = 98;
+	  //uint8_t RSSI_CLOSER = 77;
+	  //uint8_t RSSI_DRIVER = 98;
 
 //	  typedef enum {
 //	      STATE_INIT,
@@ -73,10 +73,10 @@ uint8_t Filt_SR[16] = {0x4c,0x41,0x49,0x52,0x44,0x5f,0x53,0x52};
 uint8_t Filt_GEOSF[16] = {0x47,0x45,0x4f,0x53, 0x46};
 uint8_t Filt_ACARO[16] = {0x41, 0x43, 0x41, 0x52, 0x4f};
 //----------------------------------------------
-uint8_t Filt_operate5[12] = { 0x4c,0x34,0x31,0x52,0x44};
+uint8_t Filt_operate5[12] = { 0x4c,0x34,0x31,0x52,0x44};   /* -----> Manera en que radia el tag cuando se preciona el boton de abordar */
 uint8_t Filt_operate6[12] = { 0x4c,0x34,0x53,0x33,0x43};
-uint8_t Filt_AB[5] = { 0x4c,0x34,0x31,0x52,0x44};
-uint8_t Filt_ggg[5] = { 0x4c,0x34,0x31,0x52,0x44};
+uint8_t Filt_AB[5] = { 0x4c,0x34,0x31,0x52,0x44};		   /* -----> Manera en que radia el tag cuando se preciona el boton de abordar */
+uint8_t Filt_ggg[5] = { 0x4c,0x34,0x31,0x52,0x44};		   /* -----> Manera en que radia el tag cuando se preciona el boton de abordar */
 //----------------------------------------------
 
 
