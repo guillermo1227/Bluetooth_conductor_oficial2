@@ -347,7 +347,7 @@ void stop_TimerDriver(void)
  *************************************************************/
 void start_DropDriver(void)
 {
-	wiced_start_timer( &timer_drop_driver, 2600);
+	wiced_start_timer( &timer_drop_driver, 2400);
 }
 
 /*************************************************************

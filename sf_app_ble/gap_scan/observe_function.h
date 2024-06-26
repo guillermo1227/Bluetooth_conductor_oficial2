@@ -18,11 +18,11 @@ extern	uint8_t dlb;
 extern	uint8_t dtv;
 
 	/* Valor optimo en tag vehicuo */
-	  //uint8_t RSSI_CLOSER = 40;
-	  //uint8_t RSSI_DRIVER = 67;
+	  uint8_t RSSI_CLOSER = 40;
+	  uint8_t RSSI_DRIVER = 60;
 	  /* Bajos decibeles */
-	  uint8_t RSSI_CLOSER = 77;
-	  uint8_t RSSI_DRIVER = 98;
+	  //uint8_t RSSI_CLOSER = 77;
+	  //uint8_t RSSI_DRIVER = 98;
 
 //	  typedef enum {
 //	      STATE_INIT,
