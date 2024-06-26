@@ -1,0 +1,208 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Rebuild",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Clean",
+                "Build"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "Clean",
+            "type": "process",
+            "command": "bash",
+            "args": [
+                "--norc",
+                "-c",
+                "make clean"
+            ],
+            "windows": {
+                "command": "${config:modustoolbox.toolsPath}/modus-shell/bin/bash.exe",
+                "args": [
+                    "--norc",
+                    "-c",
+                    "export PATH=/bin:/usr/bin:$PATH ; ${config:modustoolbox.toolsPath}/modus-shell/bin/make.exe clean"
+                ]
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Build",
+            "type": "process",
+            "command": "bash",
+            "args": [
+                "--norc",
+                "-c",
+                "make -j build"
+            ],
+            "windows": {
+                "command": "${config:modustoolbox.toolsPath}/modus-shell/bin/bash.exe",
+                "args": [
+                    "--norc",
+                    "-c",
+                    "export PATH=/bin:/usr/bin:$PATH ; ${config:modustoolbox.toolsPath}/modus-shell/bin/make.exe -j build"
+                ]
+            },
+            "problemMatcher": "$gcc"
+        },
+        {
+            "label": "Build & Program",
+            "type": "process",
+            "command": "bash",
+            "args": [
+                "--norc",
+                "-c",
+                "make -j program"
+            ],
+            "windows": {
+                "command": "${config:modustoolbox.toolsPath}/modus-shell/bin/bash.exe",
+                "args": [
+                    "--norc",
+                    "-c",
+                    "export PATH=/bin:/usr/bin:$PATH ; ${config:modustoolbox.toolsPath}/modus-shell/bin/make.exe -j program"
+                ]
+            },
+            "problemMatcher": [],
+            "hide": true
+        },
+        {
+            "label": "Program",
+            "type": "process",
+            "command": "bash",
+            "args": [
+                "--norc",
+                "-c",
+                "make qprogram"
+            ],
+            "windows": {
+                "command": "${config:modustoolbox.toolsPath}/modus-shell/bin/bash.exe",
+                "args": [
+                    "--norc",
+                    "-c",
+                    "export PATH=/bin:/usr/bin:$PATH ; ${config:modustoolbox.toolsPath}/modus-shell/bin/make.exe qprogram"
+                ]
+            },
+            "problemMatcher": [],
+            "hide": true
+        },
+        {
+            "label": "Erase",
+            "type": "process",
+            "command": "bash",
+            "args": [
+                "--norc",
+                "-c",
+                "cd BLE-STV_V3_conductor_oficial2.0_C ; make erase"
+            ],
+            "windows": {
+                "command": "${config:modustoolbox.toolsPath}/modus-shell/bin/bash.exe",
+                "args": [
+                    "--norc",
+                    "-c",
+                    "export PATH=/bin:/usr/bin:$PATH ; cd BLE-STV_V3_conductor_oficial2.0_C; ${config:modustoolbox.toolsPath}/modus-shell/bin/make.exe erase"
+                ]
+            },
+            "problemMatcher": [],
+            "hide": true
+        },
+        {
+            "label": "Rebuild BLE-STV_V3_conductor_oficial2.0_C",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Clean BLE-STV_V3_conductor_oficial2.0_C",
+                "Build BLE-STV_V3_conductor_oficial2.0_C"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "hide": true
+        },
+        {
+            "label": "Clean BLE-STV_V3_conductor_oficial2.0_C",
+            "type": "process",
+            "command": "bash",
+            "args": [
+                "--norc",
+                "-c",
+                "cd BLE-STV_V3_conductor_oficial2.0_C ; make clean"
+            ],
+            "windows": {
+                "command": "${config:modustoolbox.toolsPath}/modus-shell/bin/bash.exe",
+                "args": [
+                    "--norc",
+                    "-c",
+                    "export PATH=/bin:/usr/bin:$PATH ; cd BLE-STV_V3_conductor_oficial2.0_C; ${config:modustoolbox.toolsPath}/modus-shell/bin/make.exe clean_proj"
+                ]
+            },
+            "problemMatcher": [],
+            "hide": true
+        },
+        {
+            "label": "Build BLE-STV_V3_conductor_oficial2.0_C",
+            "type": "process",
+            "command": "bash",
+            "args": [
+                "--norc",
+                "-c",
+                "cd BLE-STV_V3_conductor_oficial2.0_C ; make -j build"
+            ],
+            "windows": {
+                "command": "${config:modustoolbox.toolsPath}/modus-shell/bin/bash.exe",
+                "args": [
+                    "--norc",
+                    "-c",
+                    "export PATH=/bin:/usr/bin:$PATH ; cd BLE-STV_V3_conductor_oficial2.0_C; ${config:modustoolbox.toolsPath}/modus-shell/bin/make.exe -j build_proj"
+                ]
+            },
+            "problemMatcher": "$gcc",
+            "hide": true
+        },
+        {
+            "label": "Program BLE-STV_V3_conductor_oficial2.0_C",
+            "type": "process",
+            "command": "bash",
+            "args": [
+                "--norc",
+                "-c",
+                "cd BLE-STV_V3_conductor_oficial2.0_C ; make qprogram"
+            ],
+            "windows": {
+                "command": "${config:modustoolbox.toolsPath}/modus-shell/bin/bash.exe",
+                "args": [
+                    "--norc",
+                    "-c",
+                    "export PATH=/bin:/usr/bin:$PATH ; cd BLE-STV_V3_conductor_oficial2.0_C; ${config:modustoolbox.toolsPath}/modus-shell/bin/make.exe qprogram_proj"
+                ]
+            },
+            "problemMatcher": [],
+            "hide": true
+        },
+        {
+            "label": "Build & Program BLE-STV_V3_conductor_oficial2.0_C",
+            "type": "process",
+            "command": "bash",
+            "args": [
+                "--norc",
+                "-c",
+                "cd BLE-STV_V3_conductor_oficial2.0_C ; make -j program"
+            ],
+            "windows": {
+                "command": "${config:modustoolbox.toolsPath}/modus-shell/bin/bash.exe",
+                "args": [
+                    "--norc",
+                    "-c",
+                    "export PATH=/bin:/usr/bin:$PATH ; cd BLE-STV_V3_conductor_oficial2.0_C; ${config:modustoolbox.toolsPath}/modus-shell/bin/make.exe -j program_proj"
+                ]
+            },
+            "problemMatcher": [],
+            "hide": true
+        }
+    ]
+}
