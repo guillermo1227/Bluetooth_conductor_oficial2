@@ -2689,8 +2689,9 @@ void errace_data(void)
 	static uint8_t flag_f=0;
 	if(flag_f == 0)
 	{
-		status_driver=2;
-		WICED_BT_TRACE("KDV|NONE\n");   /* The number 40 is just a piece of information to fill out */
+		//status_driver=2;
+		status_driver=0;
+		WICED_BT_TRACE("KDV|NONE\n");
 		flag_f++;
 		if((St_dsbDr == 1) )
 		{

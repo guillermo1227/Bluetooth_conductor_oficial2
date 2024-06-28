@@ -406,7 +406,7 @@ void f_drop_timer( uint32_t data )
 			start_DropDriver();  /* Envio una vez mas el conductor */
 			errace_data();
 		}
-		else if(leav_flag==1)
+		else
 		{
 			leav_flag=0;
 			stop_TimerDriver();
@@ -415,7 +415,7 @@ void f_drop_timer( uint32_t data )
 		}
 
 	}
-	else if(gap_t1 == WICED_TRUE)
+	else if(gap_t1 == WICED_TRUE)   /* Es igual a TRUE cuando va a abordar lamparas */
 	{
 		//WICED_BT_TRACE("******Paro el timer\n");
 		//leav_flag=3;
