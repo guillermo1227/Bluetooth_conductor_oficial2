@@ -245,6 +245,7 @@ void Observer_scan_result_cback( wiced_bt_ble_scan_results_t *p_scan_result, uin
 								memcpy(datam_buffer2,datam_buffer,data_mc3-6);
 								datac_m2=datac_m-1;
 								data_mc32=data_mc3-6;
+								datac_comp=datac_m2;  /* llllllllllllllllllllllllllllllllllllll */
 								wiced_hal_gpio_set_pin_output(LED_GPIO_01, GPIO_PIN_OUTPUT_HIGH);
 								value_p1 = WICED_TRUE;
 								value_pa1=WICED_FALSE;
@@ -676,6 +677,7 @@ void Observer_scan_result_cback( wiced_bt_ble_scan_results_t *p_scan_result, uin
 								memcpy(datam_bufferV2,datam_bufferV,data_mc3V-6);
 								datac_mV2=datac_mV-1;
 								data_mc3V2=data_mc3V-6;
+								datac_compV=datac_mV2;    /* Agregado para solucionar desbordamiento pasajeros LLLLLLLLLLLLLLLLLLLLLLLLLLLL */
 								wiced_hal_gpio_set_pin_output( LED_GPIO_02, GPIO_PIN_OUTPUT_HIGH);
 								value_pV1 = WICED_TRUE;
 								value_paV1=WICED_FALSE;
@@ -1923,6 +1925,7 @@ void clear_cont(void)
 					datac_m3=0;
 					data_mc33=0;
 					memset(datam_buffer3,'\0',350);
+					//WICED_BT_TRACE("*********** ----> Limpio todo\n");
 					//----------------------------------
 					//WICED_BT_TRACE_ARRAY(datam_buffer, 18, "BUFFER LAMPARASZZ4");
 					//WICED_BT_TRACE_ARRAY(datam_buffer2, 18, "BUFFER LAMPARAS2ZZ4");
