@@ -286,4 +286,28 @@ extern             void init_macCTR_logs(void);
 
 extern			   void Know_driver(wiced_bt_ble_scan_results_t *p_scan_result);
 
+/** Filters Beacons for UID */
+uint8_t Filt_UUID1[3] = { 0x42, 0x53, 0x31 };		// Filter ( BEACON1 - BS1 )
+uint8_t Filt_UUID2[3] = { 0x42, 0x53, 0x32 };		// Filter ( BEACON2 - BS2 )
+uint8_t Filt_UUID3[3] = { 0x42, 0x53, 0x33 };		// Filter ( BEACON3 - BS3 )
+
+uint8_t	Filt_ID[2] = {0x42, 0x4e};					// Filter ( BN )
+char scanner_url[7];
+//enum B_localizacion {
+//	bascula = 1,
+//	carga,
+//	descarga,
+//	transito
+//};
+//
+//typedef struct dataB_localizacion
+//{
+//	char nameB[7];  /* BNcarga */
+//	uint8_t *macG[6];
+//	uint8_t type_G;
+//	wiced_bool_t flagG_L;
+//}B_localizacion;
+//
+//extern B_localizacion Data_BecLoc;
+
 #endif /* SF_APP_BLE_GAP_SCAN_OBSERVE_FUNCTION_H_ */

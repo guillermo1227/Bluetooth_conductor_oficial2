@@ -424,3 +424,23 @@ void f_drop_timer( uint32_t data )
 		stop_DropDriver();
 	}
 }
+
+/***************************************************************
+ * Function name: f_Count_Localization
+ * Description: Control the time and the state of the send of information localization Beacons
+ *
+ * @parameter   data: void
+ ***************************************************************/
+void f_Count_Localization( uint32_t data )
+{
+	if(strlen(Data_BecLoc.macG) == 6)
+	{
+	WICED_BT_TRACE("CAR#");
+	WICED_BT_TRACE("%02X",Data_BecLoc.macG[0]);
+	for(uint8_t i=1;i<6;i++)
+		{
+		WICED_BT_TRACE(":%02X",Data_BecLoc.macG[i]);
+		}
+	WICED_BT_TRACE("\n");
+	}
+}

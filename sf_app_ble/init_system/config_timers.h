@@ -70,5 +70,6 @@ extern void      f_timer_CER( uint32_t data );
 
 extern void      f_timer_driver( uint32_t data );
 extern void      f_drop_timer( uint32_t data );
+extern void 	 f_Count_Localization( uint32_t data );
 
 #endif /* SF_APP_BLE_INIT_SYSTEM_CONFIG_TIMERS_H_ */

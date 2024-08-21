@@ -44,6 +44,7 @@ void                            f_timer_CER( uint32_t data );
 
 void      						f_timer_driver( uint32_t data );
 void      						f_drop_timer( uint32_t data );
+void      						f_Count_Localization( uint32_t data );
 
 extern void start_TOnline(void);
 extern void start_TOnline_long(void);
@@ -66,5 +67,6 @@ extern void stop_TimerDriver(void);
 extern void stop_DropDriver(void);
 extern void errace_data(void);
 extern void send_again(void);
+
 
 #endif /* SF_APP_BLE_PROCESSES_BLE_PROCESSES_TIMERS_H_ */

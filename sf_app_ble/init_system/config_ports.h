@@ -38,5 +38,22 @@ extern void button_cback_4( void *data, uint8_t port_pin );
 
 extern void gap_out_f(void);
 
+enum B_localizacion {
+	bascula = 1,
+	carga,
+	descarga,
+	transito
+};
+
+typedef struct dataB_localizacion
+{
+	char nameB[7];  /* BNcarga */
+	uint8_t *macG[6];
+	uint8_t type_G;
+	wiced_bool_t flagG_L;
+}B_localizacion;
+
+extern B_localizacion Data_BecLoc;
+
 
 #endif /* SF_APP_BLE_INIT_SYSTEM_CONFIG_PORTS_H_ */

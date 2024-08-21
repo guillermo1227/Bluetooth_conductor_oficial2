@@ -32,6 +32,7 @@
 #include "config_ports.h"
 #include "wiced_hal_gpio.h"
 
+B_localizacion Data_BecLoc;
 /******************************************
  * Function name: start_observe
  * Description: start the scanner
@@ -55,6 +56,7 @@ void Observer_scan_result_cback( wiced_bt_ble_scan_results_t *p_scan_result, uin
     wiced_result_t         status;
     wiced_bool_t           ret_status;
     uint8_t                length;
+    uint8_t                length2;
     uint8_t                i = 0;
     uint8_t *              p_data;
 
@@ -62,6 +64,9 @@ void Observer_scan_result_cback( wiced_bt_ble_scan_results_t *p_scan_result, uin
     p_name= &p_adv_data[5];
     uint8_t data_long=NULL;
     data_long=strlen(p_name);
+
+    uint8_t 				*p_uuid=NULL;    /* Variable usada para el UID de los beacons de acarreo */
+    uint8_t 				*p_url=NULL;    /* Variable usada para el UID de los beacons de acarreo */
 
     wiced_bt_device_address_t static_addr;
     wiced_bt_dev_read_local_addr(static_addr );
@@ -157,6 +162,55 @@ void Observer_scan_result_cback( wiced_bt_ble_scan_results_t *p_scan_result, uin
 
     if ( p_scan_result )
     {
+
+    	/* Aqui muevo el codigo de Localizacio de Beacons */
+    	         /* Parte de codigo de Localizacio de Beacons */
+    	         p_uuid = wiced_bt_ble_check_advertising_data( p_adv_data, BTM_BLE_ADVERT_TYPE_SERVICE_DATA, &length2 );
+
+    	         if(p_uuid)
+    	         {
+    	        	 memcpy(scanner_url,&p_uuid[5],7);
+    	        	 WICED_BT_TRACE("URL11: %B\n",scanner_url);
+
+    	        	 p_uuid = &p_uuid[4];
+    	        	 WICED_BT_TRACE("UUID %B\n",p_uuid);
+
+    	        	 if( !memcmp( p_uuid, Filt_UUID1, sizeof( Filt_UUID1 ) ) && (Data_BecLoc.flagG_L != WICED_TRUE) )
+    	        	 {
+    	        		 memcpy(Data_BecLoc.macG,p_scan_result->remote_bd_addr,6);
+    	        		 Data_BecLoc.flagG_L = WICED_TRUE;
+    	        		 Data_BecLoc.type_G = bascula;
+    	        	 }
+
+    	        	 if( !memcmp( p_uuid, Filt_UUID2, sizeof( Filt_UUID2 ) ) && (Data_BecLoc.flagG_L != WICED_TRUE) )
+    	        	 {
+    	        		 memcpy(Data_BecLoc.macG,p_scan_result->remote_bd_addr,6);
+    	        		 Data_BecLoc.flagG_L = WICED_TRUE;
+    	        		 Data_BecLoc.type_G = carga;
+    	        	 }
+    	        	 else
+    	        	 {
+    	        		 //p_uuid = wiced_bt_ble_check_advertising_data( p_adv_data,BTM_BLE_ADVERT_TYPE_URI, &length );
+    	        		 p_url = wiced_bt_ble_check_advertising_data( p_adv_data,BTM_BLE_ADVERT_TYPE_SERVICE_DATA, &length );
+    	        		 if(p_url != NULL)
+    	        		 {
+    	        			 memcpy(scanner_url,&p_url[5],7);
+    	        			 WICED_BT_TRACE("URL11: %B\n",scanner_url);
+    	        			 if(memcmp("BNCarga",scanner_url,7)==0)
+    	        			 {
+    	        				 WICED_BT_TRACE("*********************************Nombre BNCarga\n");
+    	        			 }
+    	        		 }
+    	        	 }
+
+    	        	 if( !memcmp( p_uuid, Filt_UUID3, sizeof( Filt_UUID3 ) ) )
+    	        	 {
+    	        		 memcpy(Data_BecLoc.macG,p_scan_result->remote_bd_addr,6);
+    	        		 Data_BecLoc.flagG_L = WICED_TRUE;
+    	        		 Data_BecLoc.type_G = descarga;
+    	        	 }
+    	         }
+
     	memcpy(dataFilt5,p_scan_result->remote_bd_addr,6);
     	memcpy(dataFilt, p_name, 5);
          if(p_scan_result->rssi>=-125 //&& memcmp(Filt_operate72, dataFilt5, sizeof(dataFilt5)) == 0
@@ -996,48 +1050,7 @@ void Observer_scan_result_cback( wiced_bt_ble_scan_results_t *p_scan_result, uin
 
 
 		   	       memcpy(dataFiltR,p_scan_result->remote_bd_addr,6);
-		   	    /*
-		   	   	if(memcmp(Filt_operate1, dataFilt, sizeof(dataFilt)) == 0 ||
-		   	    	   memcmp(Filt_operate1, dataFilt, sizeof(dataFilt)) == 0 ){//filtro de nombres
 
-		   	      	      WICED_BT_TRACE("BNM");
-		   				  for(int k=0; k<=5; k++)
-		   				  {
-		   				    WICED_BT_TRACE(":%02X",dataFiltR[k]);
-		   				  }
-		   				  WICED_BT_TRACE("NAME:");
-		   				  wiced_hal_puart_print(p_name);
-		   				  WICED_BT_TRACE(",LAMP,%d\n",p_scan_result->rssi);
-		   	      	     // WICED_BT_TRACE( "%B\n", static_addr );
-		   	    	      //wiced_hal_puart_print(p_name);
-		   	    	}
-		   	    	else if(memcmp(Filt_operate2, dataFilt, sizeof(dataFilt)) == 0 ||
-		   	    	    	memcmp(Filt_operate2, dataFilt, sizeof(dataFilt)) == 0 )
-		   	    	{
-		   	      	      WICED_BT_TRACE("BNM");
-		   				  for(int k=0; k<=5; k++)
-		   				  {
-		   				    WICED_BT_TRACE(":%02X",dataFiltR[k]);
-		   				  }
-		   				  WICED_BT_TRACE("NAME:");
-		   				  wiced_hal_puart_print(p_name);
-		   				  WICED_BT_TRACE(",VEHI,%d\n",p_scan_result->rssi);
-		   	    	      //WICED_BT_TRACE( "%B\n", static_addr );
-		   	    	}
-		   	    	else if(memcmp(Filt_operate3, dataFilt, sizeof(dataFilt)) == 0 ||
-		   	    	    	memcmp(Filt_operate3, dataFilt, sizeof(dataFilt)) == 0 )
-		   	    	{
-		   	      	      WICED_BT_TRACE("BNM");
-		   				  for(int k=0; k<=5; k++)
-		   				  {
-		   				    WICED_BT_TRACE(":%02X",dataFiltR[k]);
-		   				  }
-		   				  WICED_BT_TRACE(",BEAC,%d\n",p_scan_result->rssi);
-		   	    	      //WICED_BT_TRACE( "%B\n", static_addr );
-		       		      wiced_hal_gpio_set_pin_output( LED_GPIO_11, GPIO_PIN_OUTPUT_HIGH);
-		       		      //WICED_BT_TRACE("SPIN 11 HIGH\n");
-		   				  start_TreturnfB();
-		   	    	}*/
 		   //--------------------------------------------------------------------
 		   	   	//-----------------------------------------------------------
 		   		memcpy(dataFiltEA, p_name, 8);
@@ -1046,17 +1059,17 @@ void Observer_scan_result_cback( wiced_bt_ble_scan_results_t *p_scan_result, uin
 
 
 
-
-		   	   		  WICED_BT_TRACE("BNM|");
-	   	      	      WICED_BT_TRACE("%02X",dataFiltR[0]);
-	   				  for(int k=1; k<=5; k++)
-	   				  {
-	   				    WICED_BT_TRACE(":%02X",dataFiltR[k]);
-	   				  }
-	   				  //WICED_BT_TRACE("NAME:");
-	   				  //wiced_hal_puart_print(p_name);
-	   				  WICED_BT_TRACE(",LAMP,%d",p_scan_result->rssi);
-	   				  WICED_BT_TRACE(",1\n");
+		   	   		/* Descomentar */
+//		   	   		  WICED_BT_TRACE("BNM|");
+//	   	      	      WICED_BT_TRACE("%02X",dataFiltR[0]);
+//	   				  for(int k=1; k<=5; k++)
+//	   				  {
+//	   				    WICED_BT_TRACE(":%02X",dataFiltR[k]);
+//	   				  }
+//	   				  //WICED_BT_TRACE("NAME:");
+//	   				  //wiced_hal_puart_print(p_name);
+//	   				  WICED_BT_TRACE(",LAMP,%d",p_scan_result->rssi);
+//	   				  WICED_BT_TRACE(",1\n");
 
 
 	   	      	     // WICED_BT_TRACE( "%B\n", static_addr );
@@ -1121,16 +1134,17 @@ void Observer_scan_result_cback( wiced_bt_ble_scan_results_t *p_scan_result, uin
 		   	   	   else if(memcmp(Filt_operate101, dataFiltEA, sizeof(dataFiltEA)) == 0 ||
 		   	    	   memcmp(Filt_operate101, dataFiltEA, sizeof(dataFiltEA)) == 0 ){//filtro de nombres
 
-		   	      	      WICED_BT_TRACE("BNM|");
-		   	      	      WICED_BT_TRACE("%02X",dataFiltR[0]);
-		   				  for(int k=1; k<=5; k++)
-		   				  {
-		   				    WICED_BT_TRACE(":%02X",dataFiltR[k]);
-		   				  }
-		   				  //WICED_BT_TRACE("NAME:");
-		   				  //wiced_hal_puart_print(p_name);
-		   				  WICED_BT_TRACE(",LAMP,%d",p_scan_result->rssi);
-		   				  WICED_BT_TRACE(",0\n");
+		   	   		   /* Descomentar */
+//		   	      	      WICED_BT_TRACE("BNM|");
+//		   	      	      WICED_BT_TRACE("%02X",dataFiltR[0]);
+//		   				  for(int k=1; k<=5; k++)
+//		   				  {
+//		   				    WICED_BT_TRACE(":%02X",dataFiltR[k]);
+//		   				  }
+//		   				  //WICED_BT_TRACE("NAME:");
+//		   				  //wiced_hal_puart_print(p_name);
+//		   				  WICED_BT_TRACE(",LAMP,%d",p_scan_result->rssi);
+//		   				  WICED_BT_TRACE(",0\n");
 
 		   	      	     // WICED_BT_TRACE( "%B\n", static_addr );
 		   	    	      //wiced_hal_puart_print(p_name);
@@ -1172,39 +1186,42 @@ void Observer_scan_result_cback( wiced_bt_ble_scan_results_t *p_scan_result, uin
 		   	         //WICED_BT_TRACE("NAMEXXXX:");
 		   	         //wiced_hal_puart_print(&p_name[9]);
 		   	         //WICED_BT_TRACE("\n");
-		   	    	 if(memcmp(Filt_operate103, dataFiltBC, sizeof(dataFiltBC)) == 0 ||
-		   	    	    	memcmp(Filt_ACARO, dataFiltBC, sizeof(dataFiltBC)) == 0 )
-		   	    	{
-		   	      	      WICED_BT_TRACE("BNM|");
-		   	      	      WICED_BT_TRACE("%02X",dataFiltR[0]);
-		   				  for(int k=1; k<=5; k++)
-		   				  {
-		   				    WICED_BT_TRACE(":%02X",dataFiltR[k]);
-		   				  }
-		   				  WICED_BT_TRACE(",BEAC,%d",p_scan_result->rssi);
-		   				  WICED_BT_TRACE(",0\n");
-		   	    	      //WICED_BT_TRACE( "%B\n", static_addr );
-		       		      //wiced_hal_gpio_set_pin_output( LED_GPIO_03, GPIO_PIN_OUTPUT_HIGH);
-		       		      //WICED_BT_TRACE("SPIN 11 HIGH\n");
-		   				  //start_TreturnfB();
-		   	    	}
 
-		   	    	 if(memcmp(Filt_GEOSF, dataFiltBC, sizeof(dataFiltBC)) == 0 ||
-		   	    	    	memcmp(Filt_GEOSF, dataFiltBC, sizeof(dataFiltBC)) == 0 )
-		   	    	{
-		   	      	      WICED_BT_TRACE("BNM|");
-		   	      	      WICED_BT_TRACE("%02X",dataFiltR[0]);
-		   				  for(int k=1; k<=5; k++)
-		   				  {
-		   				    WICED_BT_TRACE(":%02X",dataFiltR[k]);
-		   				  }
-		   				  WICED_BT_TRACE(",GEOSF,%d",p_scan_result->rssi);
-		   				  WICED_BT_TRACE(",0\n");
-		   	    	      //WICED_BT_TRACE( "%B\n", static_addr );
-		       		      //wiced_hal_gpio_set_pin_output( LED_GPIO_03, GPIO_PIN_OUTPUT_HIGH);
-		       		      //WICED_BT_TRACE("SPIN 11 HIGH\n");
-		   				  //start_TreturnfB();
-		   	    	}
+		   	         /* -----------------> */
+//		   	    	 if(memcmp(Filt_operate103, dataFiltBC, sizeof(dataFiltBC)) == 0 ||
+//		   	    	    	memcmp(Filt_ACARO, dataFiltBC, sizeof(dataFiltBC)) == 0 )
+//		   	    	{
+//		   	      	      WICED_BT_TRACE("BNM|");
+//		   	      	      WICED_BT_TRACE("%02X",dataFiltR[0]);
+//		   				  for(int k=1; k<=5; k++)
+//		   				  {
+//		   				    WICED_BT_TRACE(":%02X",dataFiltR[k]);
+//		   				  }
+//		   				  WICED_BT_TRACE(",BEAC,%d",p_scan_result->rssi);
+//		   				  WICED_BT_TRACE(",0\n");
+//		   	    	      //WICED_BT_TRACE( "%B\n", static_addr );
+//		       		      //wiced_hal_gpio_set_pin_output( LED_GPIO_03, GPIO_PIN_OUTPUT_HIGH);
+//		       		      //WICED_BT_TRACE("SPIN 11 HIGH\n");
+//		   				  //start_TreturnfB();
+//		   	    	}
+
+		   	    	 /* -----------------> */
+//		   	    	 if(memcmp(Filt_GEOSF, dataFiltBC, sizeof(dataFiltBC)) == 0 ||
+//		   	    	    	memcmp(Filt_GEOSF, dataFiltBC, sizeof(dataFiltBC)) == 0 )
+//		   	    	{
+//		   	      	      WICED_BT_TRACE("BNM|");
+//		   	      	      WICED_BT_TRACE("%02X",dataFiltR[0]);
+//		   				  for(int k=1; k<=5; k++)
+//		   				  {
+//		   				    WICED_BT_TRACE(":%02X",dataFiltR[k]);
+//		   				  }
+//		   				  WICED_BT_TRACE(",GEOSF,%d",p_scan_result->rssi);
+//		   				  WICED_BT_TRACE(",0\n");
+//		   	    	      //WICED_BT_TRACE( "%B\n", static_addr );
+//		       		      //wiced_hal_gpio_set_pin_output( LED_GPIO_03, GPIO_PIN_OUTPUT_HIGH);
+//		       		      //WICED_BT_TRACE("SPIN 11 HIGH\n");
+//		   				  //start_TreturnfB();
+//		   	    	}
 
 		   	      memcpy(dataFiltLV, p_name, 5);
 
@@ -1212,19 +1229,20 @@ void Observer_scan_result_cback( wiced_bt_ble_scan_results_t *p_scan_result, uin
 		   	    	    	memcmp(Filt_operate1, dataFiltLV, sizeof(dataFiltLV)) == 0 )
 		   	    	{
 
-		   	      	      WICED_BT_TRACE("BNM|");
-		   	      	      WICED_BT_TRACE("%02X",dataFiltR[0]);
-		   				  for(int k=1; k<=5; k++)
-		   				  {
-		   				    WICED_BT_TRACE(":%02X",dataFiltR[k]);
-		   				  }
-		   				  //WICED_BT_TRACE("NAME:");
-		   				  //wiced_hal_puart_print(p_name);
-		   				  WICED_BT_TRACE(",LAMP,%d",p_scan_result->rssi);
-		   				  WICED_BT_TRACE(",0\n");
-		   				  //WICED_BT_TRACE(",0,%d\n",St_dsbDr);-------->
-		   	      	     // WICED_BT_TRACE( "%B\n", static_addr );
-		   	    	      //wiced_hal_puart_print(p_name);
+		   	    		 /* Descomentar */
+//		   	      	      WICED_BT_TRACE("BNM|");
+//		   	      	      WICED_BT_TRACE("%02X",dataFiltR[0]);
+//		   				  for(int k=1; k<=5; k++)
+//		   				  {
+//		   				    WICED_BT_TRACE(":%02X",dataFiltR[k]);
+//		   				  }
+//		   				  //WICED_BT_TRACE("NAME:");
+//		   				  //wiced_hal_puart_print(p_name);
+//		   				  WICED_BT_TRACE(",LAMP,%d",p_scan_result->rssi);
+//		   				  WICED_BT_TRACE(",0\n");
+//		   				  //WICED_BT_TRACE(",0,%d\n",St_dsbDr);-------->
+//		   	      	     // WICED_BT_TRACE( "%B\n", static_addr );
+//		   	    	      //wiced_hal_puart_print(p_name);
 
 		   	    	}
 
@@ -1232,17 +1250,18 @@ void Observer_scan_result_cback( wiced_bt_ble_scan_results_t *p_scan_result, uin
 		   	    	    	memcmp(Filt_operate2, dataFiltLV, sizeof(dataFiltLV)) == 0 )
 		   	    	{
 
-		   	      	      WICED_BT_TRACE("BNM|");
-		   	      	      WICED_BT_TRACE("%02X",dataFiltR[0]);
-		   				  for(int k=1; k<=5; k++)
-		   				  {
-		   				    WICED_BT_TRACE(":%02X",dataFiltR[k]);
-		   				  }
-		   				  //WICED_BT_TRACE("NAME:");
-		   				  //wiced_hal_puart_print(p_name);
-		   				  WICED_BT_TRACE(",VEHI,%d",p_scan_result->rssi);
-		   				  WICED_BT_TRACE(",0\n");
-		   	    	      //WICED_BT_TRACE( "%B\n", static_addr );
+		   	    		 /* Descomentar */
+//		   	      	      WICED_BT_TRACE("BNM|");
+//		   	      	      WICED_BT_TRACE("%02X",dataFiltR[0]);
+//		   				  for(int k=1; k<=5; k++)
+//		   				  {
+//		   				    WICED_BT_TRACE(":%02X",dataFiltR[k]);
+//		   				  }
+//		   				  //WICED_BT_TRACE("NAME:");
+//		   				  //wiced_hal_puart_print(p_name);
+//		   				  WICED_BT_TRACE(",VEHI,%d",p_scan_result->rssi);
+//		   				  WICED_BT_TRACE(",0\n");
+//		   	    	      //WICED_BT_TRACE( "%B\n", static_addr );
 
 		   	    	}
 
@@ -1311,7 +1330,7 @@ void Observer_scan_result_cback( wiced_bt_ble_scan_results_t *p_scan_result, uin
 
     	    	  	memcpy(dataV_SPI,data_flt2,6);
 
-    	    		 if(memcmp(Filt_MAC4, dataV_SPI, sizeof(dataV_SPI)) != 0 && gap_t1== WICED_FALSE)
+    	    		 if(memcmp(Filt_MAC4, dataV_SPI, sizeof(dataV_SPI)) != 0 && gap_t1== WICED_FALSE)  /* --> */
     	    		 {
     	    			 /*WICED_BT_TRACE("URL:");
     	    			 wiced_hal_puart_print(&p_data[3]);
@@ -1402,7 +1421,7 @@ void Observer_scan_result_cback( wiced_bt_ble_scan_results_t *p_scan_result, uin
 
     	    	   		//-----------------------------------------
     	    	   		//----------------------------------------------------------------------------------
-        	    	  	memcpy(datac_fp,data_flt2,6);
+        	    	  	memcpy(datac_fp,data_flt2,6);				/* datac_fp   en esta variable se tiene la mac del dispositivo */
     	    	   		if (strstr(substr3,substrSL) != NULL)
     	    	   		{
     	    	   			 WICED_BT_TRACE("SLB\n");
@@ -1412,69 +1431,48 @@ void Observer_scan_result_cback( wiced_bt_ble_scan_results_t *p_scan_result, uin
     	    					  WICED_BT_TRACE("4BACK La cadena '%s',  en la posición %d\n", sK, indice);*/
     	    	   		}
 
-    	    	   		else if (strstr(substr3,substrSA) != NULL && memcmp(datac_cfbf2, datac_fp, sizeof(datac_fp)) == 0)
-    	    	   		{
-
-    		   	      	      WICED_BT_TRACE("CAR#");
-    		   	      	      WICED_BT_TRACE("%02X",substr3[2]);
-    		   				  for(int k=3; k<=7; k++)
-    		   				  {
-    		   				    WICED_BT_TRACE(":%02X",substr3[k]);
-    		   				  }
-    		   				  //WICED_BT_TRACE("NAME:");
-    		   				  //wiced_hal_puart_print(p_name);
-
-    		   				  if(datam_fff3[8]==0)
-    		   				  {
-    		   					WICED_BT_TRACE("|0");
-    		   				  }
-    		   				  else if(datam_fff3[8]==1)
-    		   				  {
-    		   					WICED_BT_TRACE("|1");
-    		   				  }
-    		   				  else if(datam_fff3[8]==2)
-    		   				  {
-    		   					WICED_BT_TRACE("|2");
-    		   				  }
-    		   				  else if(datam_fff3[8]==3)
-    		   				  {
-    		   					WICED_BT_TRACE("|3");
-    		   				  }
-    		   				  else if(datam_fff3[8]==4)
-    		   				  {
-    		   					WICED_BT_TRACE("|4");
-    		   				  }
-    		   				    WICED_BT_TRACE("\n");
-
-    	    				      /*indice = sK - substr3;
-    	    				      WICED_BT_TRACE("3BACK La cadena '%s',  en la posición %d\n", sK, indice);
-    	    				      indice = substr- sK;
-    	    					  WICED_BT_TRACE("4BACK La cadena '%s',  en la posición %d\n", sK, indice);*/
-    	    	   		}
-    	    	   		else if (strstr(substr3,substrSB) != NULL && memcmp(datac_cfbf2, datac_fp, sizeof(datac_fp)) == 0)
-    	    	   		{
-    	    	   			WICED_BT_TRACE("NBC#%s\n",&substr3[2]);
-    	    	   		}
-
-    	    	   		//----------------------------------------------------------------------------------
-    	    	   		//------------------------------------------
-//    	    	   		if (strstr(substr3,substrSL) != NULL)
+//    	    	   		else if (strstr(substr3,substrSA) != NULL && memcmp(datac_cfbf2, datac_fp, sizeof(datac_fp)) == 0)
 //    	    	   		{
-//    	    	   		 if(substr3[4]==2 || substr3[4]==4 || substr3[4]==6)
-//    	    	   		 {
-//    	    	   			memcpy(filt_sl,p_scan_result->remote_bd_addr,6);
-//    	    	   			//WICED_BT_TRACE("Enter: \n");
-//    			   	   		  WICED_BT_TRACE("BNM:");
-//    		   	      	      WICED_BT_TRACE("%02X",filt_sl[0]);
-//    		   				  for(int k=1; k<=5; k++)
+//
+//    		   	      	      WICED_BT_TRACE("CAR#");
+//    		   	      	      WICED_BT_TRACE("%02X",substr3[2]);
+//    		   				  for(int k=3; k<=7; k++)
 //    		   				  {
-//    		   				    WICED_BT_TRACE(":%02X",filt_sl[k]);
+//    		   				    WICED_BT_TRACE(":%02X",substr3[k]);
 //    		   				  }
 //    		   				  //WICED_BT_TRACE("NAME:");
 //    		   				  //wiced_hal_puart_print(p_name);
-//    		   				  WICED_BT_TRACE(",LAMP,%d",p_scan_result->rssi);
-//    		   				  WICED_BT_TRACE(",1\n");
-//    	    	   		 }
+//
+//    		   				  if(datam_fff3[8]==0)
+//    		   				  {
+//    		   					WICED_BT_TRACE("|0");
+//    		   				  }
+//    		   				  else if(datam_fff3[8]==1)
+//    		   				  {
+//    		   					WICED_BT_TRACE("|1");
+//    		   				  }
+//    		   				  else if(datam_fff3[8]==2)
+//    		   				  {
+//    		   					WICED_BT_TRACE("|2");
+//    		   				  }
+//    		   				  else if(datam_fff3[8]==3)
+//    		   				  {
+//    		   					WICED_BT_TRACE("|3");
+//    		   				  }
+//    		   				  else if(datam_fff3[8]==4)
+//    		   				  {
+//    		   					WICED_BT_TRACE("|4");
+//    		   				  }
+//    		   				    WICED_BT_TRACE("\n");
+//
+//    	    				      /*indice = sK - substr3;
+//    	    				      WICED_BT_TRACE("3BACK La cadena '%s',  en la posición %d\n", sK, indice);
+//    	    				      indice = substr- sK;
+//    	    					  WICED_BT_TRACE("4BACK La cadena '%s',  en la posición %d\n", sK, indice);*/
+//    	    	   		}
+//    	    	   		else if (strstr(substr3,substrSB) != NULL && memcmp(datac_cfbf2, datac_fp, sizeof(datac_fp)) == 0)
+//    	    	   		{
+//    	    	   			WICED_BT_TRACE("NBC#%s\n",&substr3[2]);
 //    	    	   		}
     	    		 }
     	    	//--------------------------------------------------------------------------------------------------
@@ -1482,7 +1480,55 @@ void Observer_scan_result_cback( wiced_bt_ble_scan_results_t *p_scan_result, uin
 
     }
 
-    }
+//         /* Aqui muevo el codigo de Localizacio de Beacons */
+//         /* Parte de codigo de Localizacio de Beacons */
+//         p_uuid = wiced_bt_ble_check_advertising_data( p_adv_data, BTM_BLE_ADVERT_TYPE_SERVICE_DATA, &length2 );
+//
+//         if(p_uuid)
+//         {
+//        	 memcpy(scanner_url,&p_uuid[5],7);
+//        	 WICED_BT_TRACE("URL11: %B\n",scanner_url);
+//
+//        	 p_uuid = &p_uuid[4];
+//        	 WICED_BT_TRACE("UUID %B\n",p_uuid);
+//
+//        	 if( !memcmp( p_uuid, Filt_UUID1, sizeof( Filt_UUID1 ) ) && (Data_BecLoc.flagG_L != WICED_TRUE) )
+//        	 {
+//        		 memcpy(Data_BecLoc.macG,p_scan_result->remote_bd_addr,6);
+//        		 Data_BecLoc.flagG_L = WICED_TRUE;
+//        		 Data_BecLoc.type_G = bascula;
+//        	 }
+//
+//        	 if( !memcmp( p_uuid, Filt_UUID2, sizeof( Filt_UUID2 ) ) && (Data_BecLoc.flagG_L != WICED_TRUE) )
+//        	 {
+//        		 memcpy(Data_BecLoc.macG,p_scan_result->remote_bd_addr,6);
+//        		 Data_BecLoc.flagG_L = WICED_TRUE;
+//        		 Data_BecLoc.type_G = carga;
+//        	 }
+//        	 else
+//        	 {
+//        		 //p_uuid = wiced_bt_ble_check_advertising_data( p_adv_data,BTM_BLE_ADVERT_TYPE_URI, &length );
+//        		 p_url = wiced_bt_ble_check_advertising_data( p_adv_data,BTM_BLE_ADVERT_TYPE_SERVICE_DATA, &length );
+//        		 if(p_url != NULL)
+//        		 {
+//        			 memcpy(scanner_url,&p_url[5],7);
+//        			 WICED_BT_TRACE("URL11: %B\n",scanner_url);
+//        			 if(memcmp("BNCarga",scanner_url,7)==0)
+//        			 {
+//        				 WICED_BT_TRACE("*********************************Nombre BNCarga\n");
+//        			 }
+//        		 }
+//        	 }
+//
+//        	 if( !memcmp( p_uuid, Filt_UUID3, sizeof( Filt_UUID3 ) ) )
+//        	 {
+//        		 memcpy(Data_BecLoc.macG,p_scan_result->remote_bd_addr,6);
+//        		 Data_BecLoc.flagG_L = WICED_TRUE;
+//        		 Data_BecLoc.type_G = descarga;
+//        	 }
+//         }
+
+    } /* Fin de if de observador */
     else
     {
         //WICED_BT_TRACE( "Scan completed :\r\n" );

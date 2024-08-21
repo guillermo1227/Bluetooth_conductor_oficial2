@@ -56,6 +56,7 @@ wiced_timer_t timer_cer;
 
 wiced_timer_t timer_driver;     //Turn on ligth for indicate the driver
 wiced_timer_t timer_drop_driver; //drop driver
+wiced_timer_t timer_Localization; //Count localization Beacon
 
 /***********************************************************
  * Function name: config_clk_timers
@@ -82,6 +83,8 @@ void config_clk_timers(void)
 
     wiced_init_timer( &timer_driver, f_timer_driver, 0, WICED_MILLI_SECONDS_TIMER );  /* Turn on the led driver */
     wiced_init_timer( &timer_drop_driver, f_drop_timer, 0, WICED_MILLI_SECONDS_TIMER ); /* Timer to left the driver */
+
+    wiced_init_timer( &timer_Localization, f_Count_Localization, 0, WICED_SECONDS_TIMER ); /* Timer used in localization */
 }
 
 /***********************************************************
@@ -93,6 +96,8 @@ void start_BTimers(void)
     wiced_start_timer( &timer_Online, 3000);
     //wiced_start_timer( &timer_st_Online, clock_st_Online);
 	wiced_start_timer( &timer_contM, 4000);
+
+	wiced_start_timer( &timer_Localization, 4000);
 }
 
 
