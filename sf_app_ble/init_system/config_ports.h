@@ -45,15 +45,36 @@ enum B_localizacion {
 	transito
 };
 
+enum B_procces_B {
+	No_Beacon,
+	In_Beacon,
+	Transmit_Beacon,
+	Out_Beacon
+};
+
+enum Name_proccess {
+	No_Name,
+	In_Name,
+	Transmit_Name,
+	Out_Name
+};
+
+enum Out_beacons {
+	errase_data,
+	found_data
+};
+
 typedef struct dataB_localizacion
 {
-	char nameB[7];  /* BNcarga */
+	char nameB[8];  /* BNcarga */
 	uint8_t *macG[6];
 	uint8_t type_G;
-	wiced_bool_t flagG_L;
+	uint8_t state_flag_B;
+	uint8_t state_flagName;
+	uint8_t out_beacon;
 }B_localizacion;
 
 extern B_localizacion Data_BecLoc;
-
+//char Mac_BecLoc[6];
 
 #endif /* SF_APP_BLE_INIT_SYSTEM_CONFIG_PORTS_H_ */

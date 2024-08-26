@@ -67,6 +67,8 @@ extern void stop_TimerDriver(void);
 extern void stop_DropDriver(void);
 extern void errace_data(void);
 extern void send_again(void);
+extern void restart_timer(void);
+extern void stop_TimerB(void);
 
 
 #endif /* SF_APP_BLE_PROCESSES_BLE_PROCESSES_TIMERS_H_ */

@@ -32,7 +32,7 @@
 #include "config_ports.h"
 #include "wiced_hal_gpio.h"
 
-B_localizacion Data_BecLoc;
+//B_localizacion Data_BecLoc;
 /******************************************
  * Function name: start_observe
  * Description: start the scanner
@@ -164,52 +164,13 @@ void Observer_scan_result_cback( wiced_bt_ble_scan_results_t *p_scan_result, uin
     {
 
     	/* Aqui muevo el codigo de Localizacio de Beacons */
-    	         /* Parte de codigo de Localizacio de Beacons */
-    	         p_uuid = wiced_bt_ble_check_advertising_data( p_adv_data, BTM_BLE_ADVERT_TYPE_SERVICE_DATA, &length2 );
-
-    	         if(p_uuid)
-    	         {
-    	        	 memcpy(scanner_url,&p_uuid[5],7);
-    	        	 WICED_BT_TRACE("URL11: %B\n",scanner_url);
-
-    	        	 p_uuid = &p_uuid[4];
-    	        	 WICED_BT_TRACE("UUID %B\n",p_uuid);
-
-    	        	 if( !memcmp( p_uuid, Filt_UUID1, sizeof( Filt_UUID1 ) ) && (Data_BecLoc.flagG_L != WICED_TRUE) )
-    	        	 {
-    	        		 memcpy(Data_BecLoc.macG,p_scan_result->remote_bd_addr,6);
-    	        		 Data_BecLoc.flagG_L = WICED_TRUE;
-    	        		 Data_BecLoc.type_G = bascula;
-    	        	 }
-
-    	        	 if( !memcmp( p_uuid, Filt_UUID2, sizeof( Filt_UUID2 ) ) && (Data_BecLoc.flagG_L != WICED_TRUE) )
-    	        	 {
-    	        		 memcpy(Data_BecLoc.macG,p_scan_result->remote_bd_addr,6);
-    	        		 Data_BecLoc.flagG_L = WICED_TRUE;
-    	        		 Data_BecLoc.type_G = carga;
-    	        	 }
-    	        	 else
-    	        	 {
-    	        		 //p_uuid = wiced_bt_ble_check_advertising_data( p_adv_data,BTM_BLE_ADVERT_TYPE_URI, &length );
-    	        		 p_url = wiced_bt_ble_check_advertising_data( p_adv_data,BTM_BLE_ADVERT_TYPE_SERVICE_DATA, &length );
-    	        		 if(p_url != NULL)
-    	        		 {
-    	        			 memcpy(scanner_url,&p_url[5],7);
-    	        			 WICED_BT_TRACE("URL11: %B\n",scanner_url);
-    	        			 if(memcmp("BNCarga",scanner_url,7)==0)
-    	        			 {
-    	        				 WICED_BT_TRACE("*********************************Nombre BNCarga\n");
-    	        			 }
-    	        		 }
-    	        	 }
-
-    	        	 if( !memcmp( p_uuid, Filt_UUID3, sizeof( Filt_UUID3 ) ) )
-    	        	 {
-    	        		 memcpy(Data_BecLoc.macG,p_scan_result->remote_bd_addr,6);
-    	        		 Data_BecLoc.flagG_L = WICED_TRUE;
-    	        		 Data_BecLoc.type_G = descarga;
-    	        	 }
-    	         }
+    	/* Parte de codigo de Localizacio de Beacons */
+    	p_uuid = wiced_bt_ble_check_advertising_data( p_adv_data, BTM_BLE_ADVERT_TYPE_SERVICE_DATA, &length2 );
+    	if(p_uuid)
+    	{
+    		/* Localization */
+    		Put_in_beacon(p_uuid,p_scan_result);
+    	}
 
     	memcpy(dataFilt5,p_scan_result->remote_bd_addr,6);
     	memcpy(dataFilt, p_name, 5);

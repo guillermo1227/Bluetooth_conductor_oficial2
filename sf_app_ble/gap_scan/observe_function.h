@@ -285,14 +285,15 @@ extern             void start_TreturnCER(void);
 extern             void init_macCTR_logs(void);
 
 extern			   void Know_driver(wiced_bt_ble_scan_results_t *p_scan_result);
+extern			   void Put_in_beacon(uint8_t *P_punteroURL,wiced_bt_ble_scan_results_t *p_scan_result);   /* Localizacion */
 
-/** Filters Beacons for UID */
-uint8_t Filt_UUID1[3] = { 0x42, 0x53, 0x31 };		// Filter ( BEACON1 - BS1 )
-uint8_t Filt_UUID2[3] = { 0x42, 0x53, 0x32 };		// Filter ( BEACON2 - BS2 )
-uint8_t Filt_UUID3[3] = { 0x42, 0x53, 0x33 };		// Filter ( BEACON3 - BS3 )
-
-uint8_t	Filt_ID[2] = {0x42, 0x4e};					// Filter ( BN )
-char scanner_url[7];
+///** Filters Beacons for UID */
+//uint8_t Filt_UUID1[3] = { 0x42, 0x53, 0x31 };		// Filter ( BEACON1 - BS1 )
+//uint8_t Filt_UUID2[3] = { 0x42, 0x53, 0x32 };		// Filter ( BEACON2 - BS2 )
+//uint8_t Filt_UUID3[3] = { 0x42, 0x53, 0x33 };		// Filter ( BEACON3 - BS3 )
+//
+//uint8_t	Filt_ID[2] = {0x42, 0x4e};					// Filter ( BN )
+//char scanner_url[7];
 //enum B_localizacion {
 //	bascula = 1,
 //	carga,

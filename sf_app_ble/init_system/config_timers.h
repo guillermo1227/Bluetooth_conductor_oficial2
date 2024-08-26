@@ -50,6 +50,8 @@ void start_TreturnCER(void);
 void start_TimerDriver(void); /* Turn on ones the driver led */
 void stop_TimerDriver(void);  /* Stop driver led */
 
+void restart_timer(void);     /* Send again the localization Beacon */
+void stop_TimerB(void);		  /* Stop the timer of localization */
 
 extern void      f_timer_Online( uint32_t data );
 extern void      f_timer_st_Online( uint32_t data );

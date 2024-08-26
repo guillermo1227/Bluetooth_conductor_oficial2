@@ -96,8 +96,6 @@ void start_BTimers(void)
     wiced_start_timer( &timer_Online, 3000);
     //wiced_start_timer( &timer_st_Online, clock_st_Online);
 	wiced_start_timer( &timer_contM, 4000);
-
-	wiced_start_timer( &timer_Localization, 4000);
 }
 
 
@@ -363,4 +361,24 @@ void start_DropDriver(void)
 void stop_DropDriver(void)
 {
 	wiced_stop_timer( &timer_drop_driver);
+}
+
+/*************************************************************
+ * Function name: restart_timer
+ * Description: Send again the infroamtion of the timer
+ *
+ *************************************************************/
+void restart_timer(void)
+{
+	wiced_start_timer( &timer_Localization, 2);
+}
+
+/*************************************************************
+ * Function name: stop_TimerB
+ * Description: Stop timer localization
+ *
+ *************************************************************/
+void stop_TimerB(void)
+{
+	wiced_stop_timer( &timer_Localization);
 }
