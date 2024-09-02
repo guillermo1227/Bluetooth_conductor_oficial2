@@ -435,9 +435,7 @@ void f_Count_Localization( uint32_t data )
 {
 	if(Data_BecLoc.state_flag_B == Transmit_Beacon)		/* Tipo de beacon */
 	{
-		WICED_BT_TRACE("%B\n",Data_BecLoc.macG);
 		WICED_BT_TRACE("CAR#");
-		//memcpy(Mac_BecLoc,Data_BecLoc.macG,6);
 		WICED_BT_TRACE("%02X",Data_BecLoc.macG[0]);
 		for(uint8_t i=1;i<6;i++)
 		{
@@ -463,18 +461,17 @@ void f_Count_Localization( uint32_t data )
 		/* Borrar la variable para que cuando vuelva a transcurrir el tiempo */
 		if(Data_BecLoc.out_beacon==found_data)
 		{
-			WICED_BT_TRACE("Continuo enviando datos\n");
 			Data_BecLoc.out_beacon=errase_data;
 		}
 		else if(Data_BecLoc.out_beacon==errase_data)
 		{
-			WICED_BT_TRACE("Elimino todo y estoy listo para tmar otro Beacon\n");
+			//WICED_BT_TRACE("Elimino todo y estoy listo para tmar otro Beacon\n");
+			stop_TimerB();
 			memset(Data_BecLoc.macG,NULL,6);
 			memset(Data_BecLoc.nameB,NULL,8);
 			Data_BecLoc.type_G=0;
 			Data_BecLoc.state_flag_B = No_Beacon;
 			Data_BecLoc.state_flagName = No_Name;
-			stop_TimerB();
 		}
 		check_adverting = 0;
 	}

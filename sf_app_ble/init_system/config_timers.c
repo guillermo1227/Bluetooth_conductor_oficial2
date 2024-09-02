@@ -82,7 +82,7 @@ void config_clk_timers(void)
     wiced_init_timer( &timer_cer, f_timer_CER, 0, WICED_MILLI_SECONDS_TIMER );
 
     wiced_init_timer( &timer_driver, f_timer_driver, 0, WICED_MILLI_SECONDS_TIMER );  /* Turn on the led driver */
-    wiced_init_timer( &timer_drop_driver, f_drop_timer, 0, WICED_MILLI_SECONDS_TIMER ); /* Timer to left the driver */
+    wiced_init_timer( &timer_drop_driver, f_drop_timer, 0, WICED_SECONDS_TIMER ); /* Timer to left the driver */
 
     wiced_init_timer( &timer_Localization, f_Count_Localization, 0, WICED_SECONDS_TIMER ); /* Timer used in localization */
 }
@@ -350,7 +350,7 @@ void stop_TimerDriver(void)
  *************************************************************/
 void start_DropDriver(void)
 {
-	wiced_start_timer( &timer_drop_driver, 2400);
+	wiced_start_timer( &timer_drop_driver, 2.5);
 }
 
 /*************************************************************
