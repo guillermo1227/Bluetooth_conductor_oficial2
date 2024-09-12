@@ -33,7 +33,7 @@ void Know_driver(wiced_bt_ble_scan_results_t *p_scan_result)
 			WICED_BT_TRACE(":%02X",bdaddr_driver[k]);
 		}
 		WICED_BT_TRACE("|\n");
-
+		//ingreso++;
 		start_TimerDriver();	/* Send the driver every 2500 milieconds*/
 		start_DropDriver();		/* Init the timer for take out the driver */
 		status_driver = 1;
@@ -62,5 +62,6 @@ void send_again(void)
 		{
 			WICED_BT_TRACE(":%02X",bdaddr_driver[k]);
 		}
-		WICED_BT_TRACE("|%d\n",St_dsbDr);
+		//WICED_BT_TRACE("|%d\n",St_dsbDr);
+		WICED_BT_TRACE("|%d|\n",St_dsbDr);
 }

@@ -6,16 +6,14 @@
  */
 #include "localization.h"
 
+void init_Acarreo_parameters(void)
+{
+	Data_BecLoc.state_flag_B = No_Beacon;
+	Data_BecLoc.state_flagName = No_Name;
+}
+
 void Put_in_beacon(uint8_t *P_punteroURL,wiced_bt_ble_scan_results_t *p_scan_result)
 {
-	static uint8_t init_glag=0;
-	if (init_glag == 0)
-	{
-		Data_BecLoc.state_flag_B = No_Beacon;
-		Data_BecLoc.state_flagName = No_Name;
-		init_glag++;
-	}
-
 	uint8_t * P_url = &P_punteroURL[0];
 	P_punteroURL = &P_punteroURL[4];
 	//WICED_BT_TRACE("Info de URL:%B\n",P_punteroURL);

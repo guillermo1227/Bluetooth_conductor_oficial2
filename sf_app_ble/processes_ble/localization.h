@@ -26,5 +26,6 @@ char scanner_url[8];
 extern void Put_in_beacon(uint8_t *P_punteroURL,wiced_bt_ble_scan_results_t *p_scan_result);
 extern void restart_timer(void);
 B_localizacion Data_BecLoc;
+void init_Acarreo_parameters(void);
 
 #endif /* SF_APP_BLE_PROCESSES_BLE_LOCALIZATION_H_ */

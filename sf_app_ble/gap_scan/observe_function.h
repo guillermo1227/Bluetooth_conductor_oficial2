@@ -19,17 +19,11 @@ extern	uint8_t dtv;
 
 	/* Valor optimo en tag vehicuo */
 	  uint8_t RSSI_CLOSER = 40;
-	  uint8_t RSSI_DRIVER = 60;
+	  uint8_t RSSI_DRIVER = 65;
 	  /* Bajos decibeles */
 	  //uint8_t RSSI_CLOSER = 77;
 	  //uint8_t RSSI_DRIVER = 98;
 
-//	  typedef enum {
-//	      STATE_INIT,
-//	      STATE_RUNNING,
-//	      STATE_STOPPED,
-//	      STATE_ERROR
-//	  } StateMachineState;
 
 	  uint8_t status_driver= 0;  /* driver */
 	  volatile int8_t St_dsbDr=0;

@@ -25,6 +25,8 @@
 #include "hci_control_api.h"
 #endif
 
+#define acarreos
+
 #include "wiced_memory.h"
 #include "wiced_bt_cfg.h"
 
@@ -163,16 +165,18 @@ void Observer_scan_result_cback( wiced_bt_ble_scan_results_t *p_scan_result, uin
     if ( p_scan_result )
     {
     	/* Parte de codigo de Localizacio de Beacons */
+		#ifdef acarreos
     	p_uuid = wiced_bt_ble_check_advertising_data( p_adv_data, BTM_BLE_ADVERT_TYPE_SERVICE_DATA, &length2 );
     	if(p_uuid)
     	{
     		/* Localization */
     		Put_in_beacon(p_uuid,p_scan_result);
     	}
+		#endif
 
     	memcpy(dataFilt5,p_scan_result->remote_bd_addr,6);
     	memcpy(dataFilt, p_name, 5);
-         if(p_scan_result->rssi>=-125 //&& memcmp(Filt_operate72, dataFilt5, sizeof(dataFilt5)) == 0
+         if(p_scan_result->rssi>=-70//-125 //&& memcmp(Filt_operate72, dataFilt5, sizeof(dataFilt5)) == 0
         		 ){
     	if(//value_pin==WICED_TRUE
 
@@ -358,7 +362,7 @@ void Observer_scan_result_cback( wiced_bt_ble_scan_results_t *p_scan_result, uin
 
 								 if(memcmp(bdaddr_driver,dataV_DM,6)==0)
 								 {
-									// WICED_BT_TRACE("Entra 1");
+									WICED_BT_TRACE("---------------------->Entra 1\n");
 									 St_dsbDr = 0;
 								 }
 							 }
@@ -1362,6 +1366,7 @@ void Observer_scan_result_cback( wiced_bt_ble_scan_results_t *p_scan_result, uin
     								 //WICED_BT_TRACE("****** Agrego ampara a mac desabrdados %B\n",dataV_SPI);
     							 memcpy(&datam_bufferdbs[data_mcdbs],dataV_SPI,6);
     							 memcpy(&datam_bufferdbs[data_mcdbs],dataV_SPI,6);
+    							 WICED_BT_TRACE("--------------> Se va %B\n", &datam_bufferdbs[data_mcdbs]);
     							 data_mcdbs+=6;
     							 datac_mdbs++;
     							 //WICED_BT_TRACE("Si contiene lamparasB2\n");
@@ -1611,9 +1616,10 @@ void clear_cont(void)
 		datac_mdbs++;
 
 		St_dsbDr = 0;
-		//WICED_BT_TRACE("********* Agrego a sumas de desabordados \n");
+		WICED_BT_TRACE("********* Agrego a sumas de desabordados \n");
 	}
 
+	WICED_BT_TRACE("-------->datac_mdbs %d y datac_m2 %d\n",datac_mdbs,datac_m2);
 	//-------------------------------------------------------------------------------------
 	if(datac_mdbs>0 && datac_m2>0)
 	{
@@ -1628,20 +1634,23 @@ void clear_cont(void)
 			WICED_BT_TRACE("Admdbs: %d, dmdbs:%d, dm1:%d, dmc1:%d, dm2:%d, dmc2:%d, dmact:%d, dmcact:%d,dm3:%d, dmc3:%d\n", datac_mdbs, data_mcdbs, datac_m, data_mc3,  datac_m2, data_mc32, datac_mact, data_mc3act, datac_m3, data_mc33);*/
 			memcpy(datav_dbs,&datam_buffer2[c*6],6);
 			//WICED_BT_TRACE("FILT: %B\n", datav_dbs);
-			//--->WICED_BT_TRACE("*********** Mac a verificar %B\n",datav_dbs);
-			//--->WICED_BT_TRACE("***********Mac verificada %B\n",&datam_bufferdbs[0]);
-			memcpy(data_DRV,datav_dbs,6);
+			WICED_BT_TRACE("*********** Mac a verificar %B\n",datav_dbs);
+			WICED_BT_TRACE("***********Mac verificada %B\n",&datam_bufferdbs[0]);
 			 char *p_datadbs = strstr(datam_bufferdbs,datav_dbs);
-			 //char *p_datadbs = strstr(datam_bufferdbs,data_DRV);
 			 if(p_datadbs)
 			 {
 					indice = p_datadbs - datam_buffer2;
-					//--->WICED_BT_TRACE("*************Esta lampara se va %B\n",datav_dbs);
+					WICED_BT_TRACE("*************Esta lampara se va %B\n",datav_dbs);
 
-					if(status_driver == 1 && strstr(datav_dbs,bdaddr_driver))
+					uint8_t mac_tt[6];
+					char mac_text[6];
+					memcpy(mac_tt,bdaddr_driver,6);
+					memcpy(mac_text,mac_tt,6);
+					WICED_BT_TRACE("%s    %s\n",datav_dbs,mac_text);
+					if(status_driver == 1 && memcmp(datav_dbs,mac_text,6)==0)
 					{
 						St_dsbDr=1;
-						//WICED_BT_TRACE("---------> Se desasigno la lampara pero aun sigue abordado vale 1 \n");
+						WICED_BT_TRACE("---------> Se desasigno la lampara pero aun sigue abordado vale 1 \n");
 					}
 			 //WICED_BT_TRACE("Si contiene lamparas\n");
 				/*WICED_BT_TRACE_ARRAY(datam_buffer,20,"Bbuffer dbs1: %B");
