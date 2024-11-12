@@ -63,6 +63,7 @@ extern void                     event_select_SPP(void);
 extern void                     set_rssi(void);
 
 extern void                     config_clk_timers(void);
+extern void 					init_Acarreo_parameters(void);
 //extern void                     start_BTimers(void);
 
 extern void process_SOM(uint8_t *data_S_OM);

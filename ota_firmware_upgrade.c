@@ -281,6 +281,7 @@ APPLICATION_START()
     wiced_hal_puart_select_uart_pads( WICED_PUART_RXD, WICED_PUART_TXD, 0, 0);
 #endif
     wiced_hal_puart_configuration(230400, PARITY_NONE, STOP_BIT_1);
+    //wiced_hal_puart_configuration(115200, PARITY_NONE, STOP_BIT_1);
 //    wiced_set_debug_uart(WICED_ROUTE_DEBUG_TO_WICED_UART);
 #endif
 

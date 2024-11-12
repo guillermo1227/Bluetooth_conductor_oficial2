@@ -125,6 +125,11 @@ uint8_t Filt_operateBS1[12]  = {0x42,0x53,0x31};
 
 uint8_t Filt_operateLAB[12]  = {0x4C,0x41,0x42};
 
+/** Filters Beacons for UID */
+uint8_t Filt_UUID11[3] = { 0x42, 0x53, 0x31 };		// Filter ( BEACON1 - BS1 )
+uint8_t Filt_UUID22[3] = { 0x42, 0x53, 0x32 };		// Filter ( BEACON2 - BS2 )
+uint8_t Filt_UUID33[3] = { 0x42, 0x53, 0x33 };		// Filter ( BEACON3 - BS3 )
+
 uint8_t dataFilt[5];
 uint8_t dataFiltPA[5];
 uint8_t dataFiltEA[8];
@@ -176,6 +181,7 @@ char datam_buffer3[350];
 
 char datam_bufferdbs[50];
 char datam_bufferact[350];
+char scanner_url2[8];
 
 int data_mc3=0;
 int data_mc32=0;

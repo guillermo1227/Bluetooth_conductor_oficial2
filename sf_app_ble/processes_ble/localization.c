@@ -25,6 +25,7 @@ void Put_in_beacon(uint8_t *P_punteroURL,wiced_bt_ble_scan_results_t *p_scan_res
 			memcpy(Data_BecLoc.macG,p_scan_result->remote_bd_addr,6);
 			Data_BecLoc.state_flag_B = In_Beacon;
 			Data_BecLoc.type_G = bascula;
+			//WICED_BT_TRACE("Bascula********\n");
 		}
 		else if( !memcmp( P_punteroURL, Filt_UUID2, sizeof( Filt_UUID2 )) )
 		{
@@ -32,7 +33,7 @@ void Put_in_beacon(uint8_t *P_punteroURL,wiced_bt_ble_scan_results_t *p_scan_res
 			memcpy(Data_BecLoc.macG,p_scan_result->remote_bd_addr,6);
 			Data_BecLoc.state_flag_B = In_Beacon;
 			Data_BecLoc.type_G = carga;
-			//WICED_BT_TRACE("Mac guardada%B\n",Data_BecLoc.macG);
+			//WICED_BT_TRACE("Carga*********\n");
 		}
 		else if( !memcmp( P_punteroURL, Filt_UUID3, sizeof( Filt_UUID3 )) )
 		{
@@ -40,14 +41,14 @@ void Put_in_beacon(uint8_t *P_punteroURL,wiced_bt_ble_scan_results_t *p_scan_res
 			memcpy(Data_BecLoc.macG,p_scan_result->remote_bd_addr,6);
 			Data_BecLoc.state_flag_B = In_Beacon;
 			Data_BecLoc.type_G = descarga;
+			//WICED_BT_TRACE("Descarga******\n");
 		}
 	}
 
 	memcpy(scanner_url,&P_url[5],7);
 	if(memcmp("BNCarga",scanner_url,7)==0 && Data_BecLoc.state_flagName == No_Name && Data_BecLoc.type_G == carga)
 	{
-		//WICED_BT_TRACE("*********************************Nombre BNCarga\n");
-		//WICED_BT_TRACE("Type: %d\n",Data_BecLoc.type_G);
+
 		Data_BecLoc.state_flagName = In_Name;
 		memcpy(Data_BecLoc.nameB,"BNCarga",7); /* BNCarga */
 		Data_BecLoc.nameB[7] = '\0';
@@ -55,7 +56,7 @@ void Put_in_beacon(uint8_t *P_punteroURL,wiced_bt_ble_scan_results_t *p_scan_res
 
 	if(Data_BecLoc.state_flag_B == In_Beacon || Data_BecLoc.state_flagName == In_Name)  /* Empieza a transmitirr informacion */
 	{
-		//WICED_BT_TRACE("---------->Iniciar el timer\n");
+		//WICED_BT_TRACE("---------->Iniciar el timer------------------->\n");
 		if(Data_BecLoc.state_flag_B == In_Beacon)
 			Data_BecLoc.state_flag_B = Transmit_Beacon;
 		else

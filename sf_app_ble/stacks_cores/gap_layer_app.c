@@ -155,6 +155,7 @@ wiced_result_t beacon_management_callback(wiced_bt_management_evt_t event, wiced
     case BTM_ENABLED_EVT:
         beacon_init();
         config_Transceiver();
+        init_Acarreo_parameters(); /* Init carries variables */
         start_observe();
         set_outPuts();
         //set_intPuts();
@@ -162,7 +163,6 @@ wiced_result_t beacon_management_callback(wiced_bt_management_evt_t event, wiced
         config_clk_timers();
         start_BTimers();
         set_rssi();
-        init_Acarreo_parameters();
 
         WICED_BT_TRACE("FLAG_RSSI: %B\n", data_rssi_save1);
         //--------------------------------------------

@@ -370,7 +370,7 @@ void stop_DropDriver(void)
  *************************************************************/
 void restart_timer(void)
 {
-	wiced_start_timer( &timer_Localization, 2);
+	wiced_start_timer( &timer_Localization, 2.5);
 }
 
 /*************************************************************

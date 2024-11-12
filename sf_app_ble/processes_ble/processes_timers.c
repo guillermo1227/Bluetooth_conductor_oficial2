@@ -458,7 +458,7 @@ void f_Count_Localization( uint32_t data )
 	static uint8_t check_adverting=0;
 	if(check_adverting == 1)
 	{
-		/* Borrar la variable para que cuando vuelva a transcurrir el tiempo */
+		/* Borrar la variable para que cuando vuelva a transcurrir el tiempo, si no se ha actualizado quiere decir que se fue */
 		if(Data_BecLoc.out_beacon==found_data)
 		{
 			Data_BecLoc.out_beacon=errase_data;
@@ -467,6 +467,7 @@ void f_Count_Localization( uint32_t data )
 		{
 			//WICED_BT_TRACE("Elimino todo y estoy listo para tmar otro Beacon\n");
 			stop_TimerB();
+			//WICED_BT_TRACE("NoCAR#\n");
 			memset(Data_BecLoc.macG,NULL,6);
 			memset(Data_BecLoc.nameB,NULL,8);
 			Data_BecLoc.type_G=0;
